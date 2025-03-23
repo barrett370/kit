@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: Ask a question
-    url: https://github.com/go-kit/kit/discussions/new?category=q-a
+    url: https://github.com/barrett370/kit/v2/discussions/new?category=q-a
     about: Questions and discussions with the Go kit community
 
   - name: Website
@@ -9,7 +9,7 @@ contact_links:
     about: Project overview, examples, frequently asked questions, etc.
 
   - name: Reference
-    url: https://pkg.go.dev/github.com/go-kit/kit
+    url: https://pkg.go.dev/github.com/barrett370/kit/v2
     about: Go kit package documentation
 
   - name: Slack channel

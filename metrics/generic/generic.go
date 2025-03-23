@@ -12,8 +12,8 @@ import (
 
 	"github.com/VividCortex/gohistogram"
 
-	"github.com/go-kit/kit/metrics"
-	"github.com/go-kit/kit/metrics/internal/lv"
+	"github.com/barrett370/kit/v2/metrics"
+	"github.com/barrett370/kit/v2/metrics/internal/lv"
 )
 
 // Counter is an in-memory implementation of a Counter.

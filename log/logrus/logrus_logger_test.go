@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	log "github.com/go-kit/kit/log/logrus"
+	log "github.com/barrett370/kit/v2/log/logrus"
 	"github.com/sirupsen/logrus"
 )
 

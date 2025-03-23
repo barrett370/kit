@@ -75,7 +75,7 @@ Redirect stdlib logger to Go kit logger.
 import (
 	"os"
 	stdlog "log"
-	kitlog "github.com/go-kit/kit/log"
+	kitlog "github.com/barrett370/kit/v2/log"
 )
 
 func main() {
@@ -114,7 +114,7 @@ logger.Log("msg", "hello")
 
 ## Levels
 
-Log levels are supported via the [level package](https://godoc.org/github.com/go-kit/kit/log/level).
+Log levels are supported via the [level package](https://godoc.org/github.com/barrett370/kit/v2/log/level).
 
 ## Supported output formats
 
@@ -136,20 +136,20 @@ and evaluation. For more details on the evolution of the Logger interface,
 see [The Hunt for a Logger Interface](http://go-talks.appspot.com/github.com/ChrisHines/talks/structured-logging/structured-logging.slide#1),
 a talk by [Chris Hines](https://github.com/ChrisHines).
 Also, please see
-[#63](https://github.com/go-kit/kit/issues/63),
-[#76](https://github.com/go-kit/kit/pull/76),
-[#131](https://github.com/go-kit/kit/issues/131),
-[#157](https://github.com/go-kit/kit/pull/157),
-[#164](https://github.com/go-kit/kit/issues/164), and
-[#252](https://github.com/go-kit/kit/pull/252)
+[#63](https://github.com/barrett370/kit/v2/issues/63),
+[#76](https://github.com/barrett370/kit/v2/pull/76),
+[#131](https://github.com/barrett370/kit/v2/issues/131),
+[#157](https://github.com/barrett370/kit/v2/pull/157),
+[#164](https://github.com/barrett370/kit/v2/issues/164), and
+[#252](https://github.com/barrett370/kit/v2/pull/252)
 to review historical conversations about package log and the Logger interface.
 
 Value-add packages and suggestions,
-like improvements to [the leveled logger](https://godoc.org/github.com/go-kit/kit/log/level),
+like improvements to [the leveled logger](https://godoc.org/github.com/barrett370/kit/v2/log/level),
 are of course welcome. Good proposals should
 
-- Be composable with [contextual loggers](https://godoc.org/github.com/go-kit/kit/log#With),
-- Not break the behavior of [log.Caller](https://godoc.org/github.com/go-kit/kit/log#Caller) in any wrapped contextual loggers, and
+- Be composable with [contextual loggers](https://godoc.org/github.com/barrett370/kit/v2/log#With),
+- Not break the behavior of [log.Caller](https://godoc.org/github.com/barrett370/kit/v2/log#Caller) in any wrapped contextual loggers, and
 - Be friendly to packages that accept only an unadorned log.Logger.
 
 ## Benchmarks & comparisons

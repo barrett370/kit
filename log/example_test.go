@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-kit/kit/log"
+	"github.com/barrett370/kit/v2/log"
 )
 
 func Example_basic() {

@@ -19,11 +19,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/go-kit/kit/metrics"
-	"github.com/go-kit/kit/metrics/generic"
-	"github.com/go-kit/kit/metrics/internal/lv"
-	"github.com/go-kit/kit/metrics/internal/ratemap"
-	"github.com/go-kit/kit/util/conn"
+	"github.com/barrett370/kit/v2/metrics"
+	"github.com/barrett370/kit/v2/metrics/generic"
+	"github.com/barrett370/kit/v2/metrics/internal/lv"
+	"github.com/barrett370/kit/v2/metrics/internal/ratemap"
+	"github.com/barrett370/kit/v2/util/conn"
 	"github.com/go-kit/log"
 )
 
@@ -60,7 +60,7 @@ func New(prefix string, logger log.Logger, lvs ...string) *Influxstatsd {
 		prefix:     prefix,
 		rates:      ratemap.New(),
 		counters:   lv.NewSpace(),
-		gauges:     map[string]*gaugeNode{}, // https://github.com/go-kit/kit/pull/588
+		gauges:     map[string]*gaugeNode{}, // https://github.com/barrett370/kit/v2/pull/588
 		timings:    lv.NewSpace(),
 		histograms: lv.NewSpace(),
 		logger:     logger,

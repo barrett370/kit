@@ -6,10 +6,7 @@ import (
 	stdhttp "net/http"
 	"strings"
 
-	"google.golang.org/grpc/metadata"
-
-	"github.com/go-kit/kit/transport/grpc"
-	"github.com/go-kit/kit/transport/http"
+	"github.com/barrett370/kit/v2/transport/http"
 )
 
 const (
@@ -38,39 +35,6 @@ func ContextToHTTP() http.RequestFunc {
 		if ok {
 			r.Header.Add("Authorization", generateAuthHeaderFromToken(token))
 		}
-		return ctx
-	}
-}
-
-// GRPCToContext moves a JWT from grpc metadata to context. Particularly
-// userful for servers.
-func GRPCToContext() grpc.ServerRequestFunc {
-	return func(ctx context.Context, md metadata.MD) context.Context {
-		// capital "Key" is illegal in HTTP/2.
-		authHeader, ok := md["authorization"]
-		if !ok {
-			return ctx
-		}
-
-		token, ok := extractTokenFromAuthHeader(authHeader[0])
-		if ok {
-			ctx = context.WithValue(ctx, JWTContextKey, token)
-		}
-
-		return ctx
-	}
-}
-
-// ContextToGRPC moves a JWT from context to grpc metadata. Particularly
-// useful for clients.
-func ContextToGRPC() grpc.ClientRequestFunc {
-	return func(ctx context.Context, md *metadata.MD) context.Context {
-		token, ok := ctx.Value(JWTContextKey).(string)
-		if ok {
-			// capital "Key" is illegal in HTTP/2.
-			(*md)["authorization"] = []string{generateAuthHeaderFromToken(token)}
-		}
-
 		return ctx
 	}
 }

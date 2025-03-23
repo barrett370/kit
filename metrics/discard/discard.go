@@ -1,7 +1,7 @@
 // Package discard provides a no-op metrics backend.
 package discard
 
-import "github.com/go-kit/kit/metrics"
+import "github.com/barrett370/kit/v2/metrics"
 
 type counter struct{}
 

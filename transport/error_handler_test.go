@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/go-kit/kit/transport"
+	"github.com/barrett370/kit/v2/transport"
 	"github.com/go-kit/log"
 )
 

@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/go-kit/kit/metrics/teststat"
+	"github.com/barrett370/kit/v2/metrics/teststat"
 )
 
 func TestCounter(t *testing.T) {

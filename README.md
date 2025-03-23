@@ -1,10 +1,10 @@
 # Go kit
 
-![GitHub Workflow Status](https://github.com/go-kit/kit/workflows/CI/badge.svg)
-[![GoDev](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/go-kit/kit?tab=doc)
-[![codecov](https://codecov.io/gh/go-kit/kit/branch/master/graph/badge.svg)](https://codecov.io/gh/go-kit/kit)
-[![Go Report Card](https://goreportcard.com/badge/go-kit/kit)](https://goreportcard.com/report/go-kit/kit)
-[![Sourcegraph](https://sourcegraph.com/github.com/go-kit/kit/-/badge.svg)](https://sourcegraph.com/github.com/go-kit/kit?badge)
+![GitHub Workflow Status](https://github.com/barrett370/kit/v2/workflows/CI/badge.svg)
+[![GoDev](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/barrett370/kit/v2?tab=doc)
+[![codecov](https://codecov.io/gh/barrett370/kit/v2/branch/master/graph/badge.svg)](https://codecov.io/gh/barrett370/kit/v2)
+[![Go Report Card](https://goreportcard.com/badge/barrett370/kit/v2)](https://goreportcard.com/report/barrett370/kit/v2)
+[![Sourcegraph](https://sourcegraph.com/github.com/barrett370/kit/v2/-/badge.svg)](https://sourcegraph.com/github.com/barrett370/kit/v2?badge)
 
 **Go kit** is a **programming toolkit** for building microservices
 (or elegant monoliths) in Go. We solve common problems in distributed
@@ -64,7 +64,7 @@ See also the
 ## Contributing
 
 Please see [CONTRIBUTING.md](/CONTRIBUTING.md).
-Thank you, [contributors](https://github.com/go-kit/kit/graphs/contributors)!
+Thank you, [contributors](https://github.com/barrett370/kit/v2/graphs/contributors)!
 
 ## Dependency management
 
@@ -126,7 +126,7 @@ Projects with a ★ have had particular influence on Go kit's design (or vice-ve
 - [Goji](https://github.com/zenazn/goji)
 - [Martini](https://github.com/go-martini/martini)
 - [Beego](https://beego.vip/)
-- [Revel](https://revel.github.io/) (considered [harmful](https://github.com/go-kit/kit/issues/350))
+- [Revel](https://revel.github.io/) (considered [harmful](https://github.com/barrett370/kit/v2/issues/350))
 - [GoBuffalo](https://gobuffalo.io/)
 
 ## Additional reading

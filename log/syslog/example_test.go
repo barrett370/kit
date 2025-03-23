@@ -1,6 +1,5 @@
-// +build !windows
-// +build !plan9
-// +build !nacl
+//go:build !windows && !plan9 && !nacl
+// +build !windows,!plan9,!nacl
 
 package syslog_test
 
@@ -9,9 +8,9 @@ import (
 
 	gosyslog "log/syslog"
 
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
-	"github.com/go-kit/kit/log/syslog"
+	"github.com/barrett370/kit/v2/log"
+	"github.com/barrett370/kit/v2/log/level"
+	"github.com/barrett370/kit/v2/log/syslog"
 )
 
 func ExampleNewSyslogLogger_defaultPrioritySelector() {

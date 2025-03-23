@@ -8,7 +8,7 @@ import (
 
 	"crypto/subtle"
 
-	"github.com/go-kit/kit/endpoint"
+	"github.com/barrett370/kit/v2/endpoint"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -38,13 +38,14 @@ var (
 	malformedKey      = "malformed.jwt.token"
 )
 
-func signingValidator(t *testing.T, signer endpoint.Endpoint, expectedKey string) {
-	ctx, err := signer(context.Background(), struct{}{})
+func signingValidator[I any, O context.Context](t *testing.T, signer endpoint.Endpoint[I, O], expectedKey string) {
+	var foo I
+	ctx, err := signer(context.Background(), foo)
 	if err != nil {
 		t.Fatalf("Signer returned error: %s", err)
 	}
 
-	token, ok := ctx.(context.Context).Value(JWTContextKey).(string)
+	token, ok := ctx.Value(JWTContextKey).(string)
 	if !ok {
 		t.Fatal("Token did not exist in context")
 	}
@@ -55,26 +56,26 @@ func signingValidator(t *testing.T, signer endpoint.Endpoint, expectedKey string
 }
 
 func TestNewSigner(t *testing.T) {
-	e := func(ctx context.Context, i interface{}) (interface{}, error) { return ctx, nil }
+	e := func(ctx context.Context, i struct{}) (context.Context, error) { return ctx, nil }
 
-	signer := NewSigner(kid, key, method, mapClaims)(e)
+	signer := NewSigner[struct{}, context.Context](kid, key, method, mapClaims)(e)
 	signingValidator(t, signer, signedKey)
 
-	signer = NewSigner(kid, key, method, standardClaims)(e)
+	signer = NewSigner[struct{}, context.Context](kid, key, method, standardClaims)(e)
 	signingValidator(t, signer, standardSignedKey)
 
-	signer = NewSigner(kid, key, method, myCustomClaims)(e)
+	signer = NewSigner[struct{}, context.Context](kid, key, method, myCustomClaims)(e)
 	signingValidator(t, signer, customSignedKey)
 }
 
 func TestJWTParser(t *testing.T) {
-	e := func(ctx context.Context, i interface{}) (interface{}, error) { return ctx, nil }
+	e := func(ctx context.Context, i struct{}) (interface{}, error) { return ctx, nil }
 
 	keys := func(token *jwt.Token) (interface{}, error) {
 		return key, nil
 	}
 
-	parser := NewParser(keys, method, MapClaimsFactory)(e)
+	parser := NewParser[struct{}, any](keys, method, MapClaimsFactory)(e)
 
 	// No Token is passed into the parser
 	_, err := parser(context.Background(), struct{}{})
@@ -94,7 +95,7 @@ func TestJWTParser(t *testing.T) {
 	}
 
 	// Invalid Method is used in the parser
-	badParser := NewParser(keys, invalidMethod, MapClaimsFactory)(e)
+	badParser := NewParser[struct{}, any](keys, invalidMethod, MapClaimsFactory)(e)
 	ctx = context.WithValue(context.Background(), JWTContextKey, signedKey)
 	_, err = badParser(ctx, struct{}{})
 	if err == nil {
@@ -110,7 +111,7 @@ func TestJWTParser(t *testing.T) {
 		return []byte("bad"), nil
 	}
 
-	badParser = NewParser(invalidKeys, method, MapClaimsFactory)(e)
+	badParser = NewParser[struct{}, any](invalidKeys, method, MapClaimsFactory)(e)
 	ctx = context.WithValue(context.Background(), JWTContextKey, signedKey)
 	_, err = badParser(ctx, struct{}{})
 	if err == nil {
@@ -134,7 +135,7 @@ func TestJWTParser(t *testing.T) {
 	}
 
 	// Test for malformed token error response
-	parser = NewParser(keys, method, StandardClaimsFactory)(e)
+	parser = NewParser[struct{}, any](keys, method, StandardClaimsFactory)(e)
 	ctx = context.WithValue(context.Background(), JWTContextKey, malformedKey)
 	ctx1, err = parser(ctx, struct{}{})
 	if want, have := ErrTokenMalformed, err; want != have {
@@ -142,7 +143,7 @@ func TestJWTParser(t *testing.T) {
 	}
 
 	// Test for expired token error response
-	parser = NewParser(keys, method, StandardClaimsFactory)(e)
+	parser = NewParser[struct{}, any](keys, method, StandardClaimsFactory)(e)
 	expired := jwt.NewWithClaims(method, jwt.StandardClaims{ExpiresAt: time.Now().Unix() - 100})
 	token, err := expired.SignedString(key)
 	if err != nil {
@@ -155,7 +156,7 @@ func TestJWTParser(t *testing.T) {
 	}
 
 	// Test for not activated token error response
-	parser = NewParser(keys, method, StandardClaimsFactory)(e)
+	parser = NewParser[struct{}, any](keys, method, StandardClaimsFactory)(e)
 	notactive := jwt.NewWithClaims(method, jwt.StandardClaims{NotBefore: time.Now().Unix() + 100})
 	token, err = notactive.SignedString(key)
 	if err != nil {
@@ -168,7 +169,7 @@ func TestJWTParser(t *testing.T) {
 	}
 
 	// test valid standard claims token
-	parser = NewParser(keys, method, StandardClaimsFactory)(e)
+	parser = NewParser[struct{}, any](keys, method, StandardClaimsFactory)(e)
 	ctx = context.WithValue(context.Background(), JWTContextKey, standardSignedKey)
 	ctx1, err = parser(ctx, struct{}{})
 	if err != nil {
@@ -183,7 +184,7 @@ func TestJWTParser(t *testing.T) {
 	}
 
 	// test valid customized claims token
-	parser = NewParser(keys, method, func() jwt.Claims { return &customClaims{} })(e)
+	parser = NewParser[struct{}, any](keys, method, func() jwt.Claims { return &customClaims{} })(e)
 	ctx = context.WithValue(context.Background(), JWTContextKey, customSignedKey)
 	ctx1, err = parser(ctx, struct{}{})
 	if err != nil {
@@ -204,7 +205,7 @@ func TestJWTParser(t *testing.T) {
 func TestIssue562(t *testing.T) {
 	var (
 		kf  = func(token *jwt.Token) (interface{}, error) { return []byte("secret"), nil }
-		e   = NewParser(kf, jwt.SigningMethodHS256, MapClaimsFactory)(endpoint.Nop)
+		e   = NewParser[any, any](kf, jwt.SigningMethodHS256, MapClaimsFactory)(endpoint.Nop)
 		key = JWTContextKey
 		val = "eyJhbGciOiJIUzI1NiIsImtpZCI6ImtpZCIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZ28ta2l0In0.14M2VmYyApdSlV_LZ88ajjwuaLeIFplB8JpyNy0A19E"
 		ctx = context.WithValue(context.Background(), key, val)

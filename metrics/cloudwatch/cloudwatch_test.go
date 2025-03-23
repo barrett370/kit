@@ -10,8 +10,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/cloudwatch"
 	"github.com/aws/aws-sdk-go/service/cloudwatch/cloudwatchiface"
 
-	"github.com/go-kit/kit/metrics"
-	"github.com/go-kit/kit/metrics/teststat"
+	"github.com/barrett370/kit/v2/metrics"
+	"github.com/barrett370/kit/v2/metrics/teststat"
 	"github.com/go-kit/log"
 )
 
